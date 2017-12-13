@@ -1,0 +1,2 @@
+# CannyEdgeDetectionParallelized
+APP project
