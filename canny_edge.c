@@ -1,3 +1,23 @@
+/*
+  gcc -o canny_edge canny_edge.c hysteresis.c pgm_io.c -lm
+  (Note: You can also use optimization such as -O3)
+
+The resulting program, canny_edge, will process images in the PGM format.
+Parameter selection is left up to the user. A broad range of parameters to
+use as a starting point are: sigma 0.60-2.40, tlow 0.20-0.50 and,
+thigh 0.60-0.90.
+
+If you are using a Unix system, PGM file format conversion tools can be found
+at ftp://wuarchive.wustl.edu/graphics/graphics/packages/pbmplus/.
+Otherwise, it would be easy for anyone to rewrite the image I/O procedures
+because they are listed in the separate file pgm_io.c.
+
+If you want to check your compiled code, you can download grey-scale and edge
+images from http://marathon.csee.usf.edu/edge/edge_detection.html. You can use
+the parameters given in the edge filenames and check whether the edges that
+are output from your program match the edge images posted at that address.
+*/
+
 /*******************************************************************************
 * --------------------------------------------
 *(c) 2001 University of South Florida, Tampa
@@ -55,6 +75,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "hysteresis.c"
+#include "pgm_io.c"
 
 #define VERBOSE 0
 #define BOOSTBLURFACTOR 90.0
@@ -79,7 +101,7 @@ void radian_direction(short int *delta_x, short int *delta_y, int rows,
     int cols, float **dir_radians, int xdirtag, int ydirtag);
 double angle_radians(double x, double y);
 
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
    char *infilename = NULL;  /* Name of the input image */
    char *dirfilename = NULL; /* Name of the output gradient direction image */
@@ -155,6 +177,7 @@ main(int argc, char *argv[])
       fprintf(stderr, "Error writing the edge image, %s.\n", outfilename);
       exit(1);
    }
+	return 0;
 }
 
 /*******************************************************************************
